@@ -1,4 +1,4 @@
-class RoomController <create ApplicationController
+class RoomsController <create ApplicationController
   def find_room
     user_id = params[:user_id]
     @room = Room.find_by_active_user(user_id)
