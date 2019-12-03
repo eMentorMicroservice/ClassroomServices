@@ -1,8 +1,11 @@
 class ClassroomChannel < ApplicationCable::Channel
   def subscribed
-    @teacher_id = params[:teacher_id]
+    @room_id = params[:room_id]
     
-    stream_from "classroom_channel_#{@user}"
+    stream_from "classroom_channel_#{@room_id}"
+  end
+
+  def send
   end
 
   def unsubscribed
