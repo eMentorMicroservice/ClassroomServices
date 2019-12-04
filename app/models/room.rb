@@ -1,6 +1,6 @@
 class Room < ApplicationRecord
   has_many :messages
-  has_many :room_users
+  has_many :participants
 
 
   def self.request(user_id)
