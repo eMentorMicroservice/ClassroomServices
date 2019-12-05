@@ -16,11 +16,11 @@ class RoomsController < ApplicationController
     render json: {fuck: 'ok'}
   end
 
-  def find_room
-    user = params[:user_id]
+  def find
+    user_id = params[:user_id]
     @room = Room.find_by_active_user(user_id)
     if @room
-      render json: {status: 'SUCCESS', room: @room.id}
+      render json: {status: 'SUCCESS', room_id: @room.id}
     else
       render json: {status: 'FAILED'}
     end
@@ -28,7 +28,7 @@ class RoomsController < ApplicationController
 
   def send_message
     @room = Room.find(params[:room_id])
-    @message = @room.messages.build(user_id: params[:user_id])
+    @message = @room.messages.build(user_id: params[:user_id], content: params[:message])
     if @message.save
       ClassroomChannel.broadcast_to(@room, type: 'MESSAGE', data: @message)
       render json: {success: true}

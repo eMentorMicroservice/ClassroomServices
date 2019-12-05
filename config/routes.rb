@@ -6,8 +6,9 @@ Rails.application.routes.draw do
     get 'test'
   end
   
-  resources :rooms, only: [:create] do
-    get 'find_room'
+  resources :rooms, only: [:create]
+  namespace :rooms do
+    get 'find'
     post 'send_info'
     post 'send_message'
     get 'test'
