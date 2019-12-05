@@ -2,18 +2,27 @@ class Room < ApplicationRecord
   has_many :messages
   has_many :participants
 
-
-  def self.request(user_id)
-    room = Room.create(end_at: 2.hours.from_now)
-    room.room_users.build(user_id: user_id)
+  def isActive?
+    return self.end_at >= DateTime.now
   end
+
+  def self.request(student_id, teacher_id)
+    room = Room.create(end_at: 2.hours.from_now)
+    room.participants.build(user_id: teacher_id)
+    room.participants.build(user_id: student_id)
+    if room.save
+      return room
+    else
+      nil
+    end
+  end
+
   def self.find_by_active_user(user_id)
-    Room.active_room
+    p = Participant.where(room: Room.active_room, user_id: user_id).last
+    p.room
   end
 
   def self.active_room
-    Room.select(:id).where(end_at: DateTime.now...DateTime::Infinity.new)
+    Room.where(end_at: DateTime.now...DateTime::Infinity.new)
   end
-
-  
 end

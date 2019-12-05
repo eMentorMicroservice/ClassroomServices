@@ -4,6 +4,11 @@ class ClassroomsController < ApplicationController
     
   end
 
+  def request
+  end
+  def test
+    render json: {fuck: 'ok'}
+  end
   def send
     @room = session_params[:room_id]
     ActionCable.server.broadcast "classroom_channel_#{@room}", session_params

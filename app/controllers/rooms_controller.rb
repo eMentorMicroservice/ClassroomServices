@@ -1,6 +1,23 @@
 class RoomsController < ApplicationController
+
+  def create
+    user = room_params[:user_id]
+    teacher = room_params[:teacher_id]
+
+    @room = Room.request(user, teacher)
+    if @room 
+      render json: {status: 'SUCCESS', room: @room.id}
+    else
+      render json: {status: 'FAILED'}
+    end
+  end
+
+  def test
+    render json: {fuck: 'ok'}
+  end
+
   def find_room
-    user_id = params[:user_id]
+    user = params[:user_id]
     @room = Room.find_by_active_user(user_id)
     if @room
       render json: {status: 'SUCCESS', room: @room.id}
@@ -28,5 +45,9 @@ class RoomsController < ApplicationController
   end
 
   private
+
+  def room_params
+    params.permit(:user_id, :teacher_id)
+  end
 
 end
