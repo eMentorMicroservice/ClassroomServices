@@ -6,6 +6,12 @@ class Room < ApplicationRecord
     return self.end_at >= DateTime.now
   end
 
+  def extend_class(times)
+    self.end_at += times.hours
+    self.save
+    return self
+  end
+
   def self.request(student_id, teacher_id)
     room = Room.create(end_at: 2.hours.from_now)
     room.participants.build(user_id: teacher_id)
