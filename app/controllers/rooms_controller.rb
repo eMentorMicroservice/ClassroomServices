@@ -37,6 +37,13 @@ class RoomsController < ApplicationController
     end
   end
 
+  def send_draw
+    @room = Room.find(params[:room_id])
+    data = params[:data]
+    ClassroomChannel.broadcast_to(@room, type: 'DRAW', data: data );
+    render json: {status: 200}
+  end
+
   def get_info
     room = Room.find_by(id: params[:room_id])
     render :json => room, except: [:created_at, :updated_at], include: [{participants: {only: :user_id}}, {messages: {only: [:id, :user_id, :content]}}]

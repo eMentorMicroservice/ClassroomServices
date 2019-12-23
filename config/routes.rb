@@ -8,5 +8,6 @@ Rails.application.routes.draw do
     post 'send_info'
     post 'send_message'
     post 'extend_class'
+    post 'send_draw'
   end
 end
