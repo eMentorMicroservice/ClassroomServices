@@ -13,7 +13,8 @@ class Room < ApplicationRecord
   end
 
   def self.request(student_id, teacher_id)
-    if !(Room.find_by_active_user(student_id))
+    r = Room.find_by_active_user(student_id)
+    if !r
       room = Room.create(end_at: 2.hours.from_now)
       room.participants.build(user_id: teacher_id)
       room.participants.build(user_id: student_id)
@@ -23,7 +24,7 @@ class Room < ApplicationRecord
         nil
       end
     else
-      nil
+      r
     end
   end
 
