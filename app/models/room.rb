@@ -13,19 +13,28 @@ class Room < ApplicationRecord
   end
 
   def self.request(student_id, teacher_id)
-    room = Room.create(end_at: 2.hours.from_now)
-    room.participants.build(user_id: teacher_id)
-    room.participants.build(user_id: student_id)
-    if room.save
-      return room
+    if !(Room.find_by_active_user(student_id))
+      room = Room.create(end_at: 2.hours.from_now)
+      room.participants.build(user_id: teacher_id)
+      room.participants.build(user_id: student_id)
+      if room.save
+        return room
+      else
+        nil
+      end
     else
       nil
     end
   end
 
   def self.find_by_active_user(user_id)
-    p = Participant.where(room: Room.active_room, user_id: user_id).last
-    p.room
+    active_room = Room.active_room
+    if active_room.length > 0
+      p = Participant.where(room: Room.active_room, user_id: user_id).last
+      p.room
+    else
+      nil
+    end
   end
 
   def self.active_room
