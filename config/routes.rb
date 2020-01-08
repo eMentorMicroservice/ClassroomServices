@@ -10,4 +10,11 @@ Rails.application.routes.draw do
     post 'extend_class'
     post 'send_draw'
   end
+
+  namespace :notify do
+    post 'send_message'
+    post 'send_offer'
+    post 'accept_offer'
+    post 'decline_offer'
+  end
 end
